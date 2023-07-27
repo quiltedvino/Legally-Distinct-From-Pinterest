@@ -1,0 +1,26 @@
+{% load thumbnail %}
+{% with user=comment.poster profile=comment.poster.profile %}
+<div class='comment'>
+    <div class='comment-image'>
+            {% if profile.photo %}
+             {% thumbnail user.profile.photo "80x80" crop="100%" as im %}
+             <a href="{{user.get_absolute_url}}">
+                <img src="{{im.url}}" alt="{{user.get_full_name}}" class='item-img'>
+            </a>
+            {% else %}
+            <a href="{{user.get_absolute_url}}">
+                {% thumbnail 'static/default.jpg' "80x80" crop="100%" as im %}
+                <img src="{{im.url}}" alt="{{user.get_full_name}} has no profile picture" class='item-img'>
+            </a>
+            {% endif %}
+    </div>
+    <div class='comment-text'>
+            <span class='date'>{{comment.created|timesince}} ago</span>
+            <br />
+            <a href="{{user.get_absolute_url}}">
+                {{user.first_name}}
+            </a>
+            {{comment.content}}
+    </div>
+</div>
+{% endwith %}
